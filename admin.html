@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CFP Commons — Admin</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: #1A1610; color: #C4B9A8; min-height: 100vh; }
+    .shell   { display: flex; min-height: 100vh; }
+    .sidebar { width: 220px; background: #141009; border-right: 1px solid #2A2218; flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+    .main    { flex: 1; padding: 2rem; max-width: 960px; }
+    .logo { padding: 1.4rem 1.2rem 1rem; border-bottom: 1px solid #2A2218; }
+    .logo-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #FEFCF8; }
+    .logo-sub   { font-size: 0.7rem; color: #B8935A; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 0.2rem; }
+    .nav-section { padding: 1rem 0.8rem 0.3rem; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: #4A4035; font-weight: 500; }
+    .nav-item { display: block; width: 100%; text-align: left; background: none; border: none; padding: 0.55rem 1.2rem; font-family: 'DM Sans', sans-serif; font-size: 0.83rem; color: #7A6F60; cursor: pointer; border-left: 2px solid transparent; transition: all 0.15s; }
+    .nav-item:hover  { color: #C4B9A8; background: #1A1610; }
+    .nav-item.active { color: #B8935A; border-left-color: #B8935A; background: #1A1610; }
+    .key-display { margin: 1rem 1.2rem; background: #1A1610; border: 1px solid #2A2218; border-radius: 4px; padding: 0.6rem 0.8rem; }
+    .key-label { font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: #4A4035; margin-bottom: 0.25rem; }
+    .key-val   { font-family: monospace; font-size: 0.75rem; color: #B8935A; word-break: break-all; }
+    .panel { background: #201A10; border: 1px solid #2A2218; border-radius: 4px; padding: 1.4rem; margin-bottom: 1.2rem; }
+    .panel-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #FEFCF8; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
+    .page-title  { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: #FEFCF8; margin-bottom: 0.3rem; }
+    .page-sub    { font-size: 0.82rem; color: #5A4F40; margin-bottom: 1.6rem; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px,1fr)); gap: 0.75rem; margin-bottom: 1.4rem; }
+    .stat { background: #201A10; border: 1px solid #2A2218; border-radius: 4px; padding: 1rem 1.2rem; }
+    .stat-val   { font-size: 1.8rem; font-weight: 500; color: #FEFCF8; line-height: 1; margin-bottom: 0.3rem; }
+    .stat-label { font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase; color: #5A4F40; }
+    .stat.gold .stat-val  { color: #B8935A; }
+    .stat.green .stat-val { color: #34D399; }
+    .stat.red .stat-val   { color: #F87171; }
+    .stat.blue .stat-val  { color: #818CF8; }
+    .tbl { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+    .tbl th { text-align: left; padding: 0.5rem 0.75rem; font-size: 0.68rem; letter-spacing: 0.07em; text-transform: uppercase; color: #4A4035; border-bottom: 1px solid #2A2218; font-weight: 500; }
+    .tbl td { padding: 0.75rem; border-bottom: 1px solid #1A1610; vertical-align: top; color: #9A8F80; }
+    .tbl tr:hover td { background: #251F14; }
+    .tbl .title-cell { color: #C4B9A8; font-weight: 500; max-width: 280px; }
+    .tbl .org-cell   { color: #7A6F60; font-size: 0.78rem; }
+    .badge { display: inline-block; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.04em; padding: 2px 8px; border-radius: 10px; }
+    .badge.pending  { background: #451A03; color: #FCD34D; }
+    .badge.approved { background: #064E3B; color: #6EE7B7; }
+    .badge.rejected { background: #450A0A; color: #FCA5A5; }
+    .badge.archived { background: #1C1917; color: #78716C; }
+    .badge.conf  { background: #1E1B4B; color: #A5B4FC; }
+    .badge.jour  { background: #451A03; color: #FDE68A; }
+    .badge.ann   { background: #064E3B; color: #6EE7B7; }
+    .field { margin-bottom: 1rem; }
+    .field label { display: block; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: #5A4F40; margin-bottom: 0.35rem; }
+    .field input, .field textarea, .field select {
+      width: 100%; background: #141009; border: 1px solid #2A2218; border-radius: 3px;
+      padding: 0.6rem 0.8rem; font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+      color: #C4B9A8; outline: none; transition: border-color 0.15s; box-sizing: border-box;
+    }
+    .field input:focus, .field textarea:focus, .field select:focus { border-color: #B8935A; }
+    .field textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .btn { font-family: 'DM Sans', sans-serif; font-size: 0.83rem; font-weight: 500; border: none; border-radius: 3px; padding: 0.5rem 1rem; cursor: pointer; transition: all 0.15s; letter-spacing: 0.03em; }
+    .btn-gold    { background: #B8935A; color: #FEFCF8; }
+    .btn-gold:hover    { background: #A07A3C; }
+    .btn-green   { background: #065F46; color: #6EE7B7; }
+    .btn-green:hover   { background: #047857; }
+    .btn-red     { background: #450A0A; color: #FCA5A5; }
+    .btn-red:hover     { background: #7F1D1D; color: #FEE2E2; }
+    .btn-ghost   { background: transparent; color: #7A6F60; border: 1px solid #2A2218; }
+    .btn-ghost:hover   { background: #251F14; color: #C4B9A8; }
+    .btn-sm  { padding: 0.3rem 0.7rem; font-size: 0.75rem; }
+    .btn-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
+    #auth-gate  { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #141009; }
+    #auth-box   { background: #201A10; border: 1px solid #2A2218; border-radius: 6px; padding: 2rem; width: 380px; }
+    #auth-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: #FEFCF8; margin-bottom: 0.4rem; }
+    #auth-sub   { font-size: 0.82rem; color: #5A4F40; margin-bottom: 1.4rem; line-height: 1.5; }
+    #auth-err   { color: #F87171; font-size: 0.8rem; margin-top: 0.5rem; display: none; }
+    #drawer-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200; }
+    #drawer { position: fixed; right: 0; top: 0; bottom: 0; width: 520px; max-width: 95vw; background: #201A10; border-left: 1px solid #2A2218; z-index: 201; overflow-y: auto; padding: 1.8rem; transform: translateX(100%); transition: transform 0.25s ease; }
+    #drawer.open { transform: translateX(0); }
+    #drawer-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #FEFCF8; margin-bottom: 0.4rem; }
+    .empty  { text-align: center; padding: 2.5rem; color: #4A4035; font-style: italic; font-size: 0.88rem; }
+    .err-box { background: #450A0A; border: 1px solid #7F1D1D; border-radius: 3px; padding: 0.75rem 1rem; color: #FCA5A5; font-size: 0.82rem; margin-bottom: 1rem; display: none; }
+    .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid #4A4035; border-top-color: #B8935A; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 0.4rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .cats { display: flex; gap: 0.3rem; flex-wrap: wrap; margin-top: 0.3rem; }
+    .cat-tag { font-size: 0.68rem; background: #251F14; color: #7A6F60; padding: 2px 6px; border-radius: 2px; }
+    .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 1rem 0; }
+    .meta-item .meta-label { font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: #4A4035; margin-bottom: 0.2rem; }
+    .meta-item .meta-val   { font-size: 0.88rem; color: #C4B9A8; }
+    .content-preview { background: #141009; border: 1px solid #2A2218; border-radius: 3px; padding: 0.9rem; font-size: 0.82rem; color: #7A6F60; line-height: 1.65; max-height: 200px; overflow-y: auto; white-space: pre-wrap; margin: 0.75rem 0; }
+    .history-item { border-left: 2px solid #2A2218; padding: 0.4rem 0.8rem; margin-bottom: 0.5rem; }
+    .history-item .h-event { font-size: 0.78rem; color: #C4B9A8; font-weight: 500; }
+    .history-item .h-time  { font-size: 0.7rem; color: #4A4035; }
+    .history-item .h-detail { font-size: 0.75rem; color: #5A4F40; margin-top: 0.15rem; }
+    .top-cats li { display: flex; justify-content: space-between; align-items: center; padding: 0.45rem 0; border-bottom: 1px solid #1A1610; font-size: 0.82rem; color: #7A6F60; }
+    .top-cats li:last-child { border-bottom: none; }
+    .top-cats li .cat-count { font-size: 0.75rem; color: #B8935A; font-weight: 500; }
+    .note { background: #251A08; border-left: 3px solid #B8935A; padding: 0.7rem 0.9rem; font-size: 0.8rem; color: #7A6F60; border-radius: 0 3px 3px 0; line-height: 1.5; margin-bottom: 1rem; }
+    a { color: #B8935A; }
+  </style>
+</head>
+<body>
+
+<div id="auth-gate">
+  <div id="auth-box">
+    <div id="auth-title">CFP Commons Admin</div>
+    <p id="auth-sub">Enter your admin key to access the moderation panel.<br>This is the <code>ADMIN_KEY</code> value from your <code>.env</code> file (or your Render environment variables).</p>
+    <div class="field">
+      <label>Admin Key</label>
+      <input type="password" id="key-input" placeholder="Paste your admin key" autocomplete="off"/>
+    </div>
+    <div class="field">
+      <label>Backend URL</label>
+      <input type="text" id="api-url-input" value="http://localhost:8000" placeholder="http://localhost:8000 or https://your-app.onrender.com"/>
+    </div>
+    <button class="btn btn-gold" onclick="tryLogin()" style="width:100%">Sign In</button>
+    <div id="auth-err">Incorrect key or backend unreachable. If this is hosted on Render's free tier, the first request after idle time can take up to a minute — try again in a moment.</div>
+  </div>
+</div>
+
+<div class="shell" id="app" style="display:none">
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-title">CFP Commons</div>
+      <div class="logo-sub">Admin Panel</div>
+    </div>
+    <div class="key-display">
+      <div class="key-label">Connected to</div>
+      <div class="key-val" id="api-url-display">—</div>
+    </div>
+    <div class="nav-section">Moderation</div>
+    <button class="nav-item active" onclick="showPage('queue')">⏳ Approval Queue</button>
+    <button class="nav-item" onclick="showPage('extensions')">📅 Extension Requests</button>
+    <div class="nav-section">Site</div>
+    <button class="nav-item" onclick="showPage('stats')">📊 Statistics</button>
+    <button class="nav-item" onclick="showPage('browse-admin')">📋 All CFPs</button>
+    <div class="nav-section">Tools</div>
+    <button class="nav-item" onclick="window.open(API_BASE+'/docs','_blank')">🔗 API Docs</button>
+    <button class="nav-item" onclick="window.open(API_BASE+'/rss/all','_blank')">📡 RSS Feed</button>
+    <button class="nav-item" onclick="signOut()">← Sign out</button>
+  </aside>
+  <div class="main" id="page-content"></div>
+</div>
+
+<div id="drawer-overlay" onclick="closeDrawer()"></div>
+<div id="drawer">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.2rem">
+    <div>
+      <div id="drawer-title">—</div>
+      <div id="drawer-meta" style="font-size:0.78rem;color:#5A4F40;margin-top:0.2rem"></div>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="closeDrawer()">✕ Close</button>
+  </div>
+  <div id="drawer-body"></div>
+</div>
+
+<script>
+let ADMIN_KEY = "";
+let API_BASE  = "http://localhost:8000";
+let currentPage = "queue";
+
+async function tryLogin() {
+  const key = document.getElementById("key-input").value.trim();
+  const url = document.getElementById("api-url-input").value.trim().replace(/\/$/, "");
+  const errEl = document.getElementById("auth-err");
+  errEl.style.display = "none";
+  if (!key) { errEl.textContent = "Enter your admin key."; errEl.style.display="block"; return; }
+  try {
+    const res = await fetch(`${url}/api/admin/stats?admin_key=${encodeURIComponent(key)}`);
+    if (!res.ok) throw new Error("bad key");
+    ADMIN_KEY = key; API_BASE = url;
+    document.getElementById("auth-gate").style.display = "none";
+    document.getElementById("app").style.display = "flex";
+    document.getElementById("api-url-display").textContent = url.replace("http://","").replace("https://","");
+    showPage("queue");
+  } catch(e) {
+    errEl.style.display = "block";
+  }
+}
+document.getElementById("key-input").addEventListener("keydown", e => { if (e.key==="Enter") tryLogin(); });
+
+function signOut() {
+  ADMIN_KEY = ""; API_BASE = "http://localhost:8000";
+  document.getElementById("app").style.display = "none";
+  document.getElementById("auth-gate").style.display = "flex";
+  document.getElementById("key-input").value = "";
+}
+
+async function api(path, options={}) {
+  const sep = path.includes("?") ? "&" : "?";
+  const res = await fetch(`${API_BASE}${path}${sep}admin_key=${encodeURIComponent(ADMIN_KEY)}`, {
+    headers: { "Content-Type": "application/json", "X-Admin-Key": ADMIN_KEY },
+    ...options,
+    body: options.body ? JSON.stringify(options.body) : undefined,
+  });
+  const data = await res.json().catch(()=>({}));
+  if (!res.ok) throw new Error(data.detail || `Error ${res.status}`);
+  return data;
+}
+const aGet  = p => api(p);
+const aPost = (p,b) => api(p, { method:"POST", body:b });
+
+function showPage(name) {
+  currentPage = name;
+  document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
+  event && event.target.classList.add("active");
+  const pages = { queue: renderQueue, extensions: renderExtensions, stats: renderStats, "browse-admin": renderBrowseAdmin };
+  if (pages[name]) pages[name]();
+}
+function setContent(html) { document.getElementById("page-content").innerHTML = html; }
+function loading(msg="Loading…") { setContent(`<div style="padding:3rem;text-align:center;color:#4A4035"><span class="spinner"></span>${msg}</div>`); }
+
+function fmtDate(iso) {
+  if (!iso) return "—";
+  return new Date(iso + (iso.length===10 ? "T00:00:00":"")).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+}
+function daysLeft(d) { return Math.ceil((new Date(d+"T23:59:59")-new Date())/86400000); }
+function typeBadge(t) { const cls = {Conference:"conf",Journal:"jour",Announcement:"ann"}[t]||"conf"; return `<span class="badge ${cls}">${t}</span>`; }
+function statusBadge(s) { return `<span class="badge ${s}">${s}</span>`; }
+function escHtml(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+async function renderQueue() {
+  loading("Loading approval queue…");
+  try {
+    const queue = await aGet("/api/admin/queue");
+    if (!queue.length) {
+      setContent(`<div class="page-title">Approval Queue</div><p class="page-sub">Submissions pending review before going live.</p><div class="empty">✓ Queue is empty — nothing awaiting review.</div>`);
+      return;
+    }
+    const rows = queue.map(cfp => `
+      <tr>
+        <td><div class="title-cell">${escHtml(cfp.title)}</div><div class="org-cell">${escHtml(cfp.organization)}</div></td>
+        <td>${typeBadge(cfp.listing_type)}</td>
+        <td style="font-size:0.78rem">${fmtDate(cfp.deadline)}</td>
+        <td style="font-size:0.75rem;color:#5A4F40">${fmtDate(cfp.posted_at)}</td>
+        <td>
+          <div class="btn-row">
+            <button class="btn btn-ghost btn-sm" onclick="openDrawer(${cfp.id})">View</button>
+            <button class="btn btn-green btn-sm" onclick="moderate(${cfp.id},'approve')">✓ Approve</button>
+            <button class="btn btn-red btn-sm" onclick="moderate(${cfp.id},'reject')">✕ Reject</button>
+          </div>
+        </td>
+      </tr>`).join("");
+    setContent(`
+      <div class="page-title">Approval Queue</div>
+      <p class="page-sub">${queue.length} submission${queue.length!==1?"s":""} awaiting review.</p>
+      <div class="note"><strong>Tip:</strong> if REQUIRE_APPROVAL is set to false for this deployment, submissions skip this queue entirely and go live immediately — useful for stakeholder demos, less so for a real moderated site.</div>
+      <div class="panel" style="padding:0;overflow:hidden">
+        <table class="tbl"><thead><tr><th>Title / Organization</th><th>Type</th><th>Deadline</th><th>Submitted</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table>
+      </div>`);
+  } catch(e) { setContent(`<div class="err-box" style="display:block">Failed to load queue: ${e.message}</div>`); }
+}
+
+async function moderate(cfpId, action) {
+  const notes = window.prompt(action === "reject" ? "Optional note for the submitter:" : "Optional internal note:") ?? null;
+  if (!window.confirm(`${action==="approve"?"Approve":"Reject"} CFP #${cfpId}?`)) return;
+  try {
+    await aPost(`/api/admin/cfps/${cfpId}/${action}`, { admin_key: ADMIN_KEY, notes });
+    alert(`CFP #${cfpId} ${action}d.`);
+    closeDrawer(); renderQueue();
+  } catch(e) { alert(`Error: ${e.message}`); }
+}
+
+async function renderExtensions() {
+  loading("Loading extension requests…");
+  try {
+    const exts = await aGet("/api/admin/extensions");
+    if (!exts.length) {
+      setContent(`<div class="page-title">Deadline Extension Requests</div><p class="page-sub">Extension requests submitted by CFP owners.</p><div class="empty">✓ No pending extension requests.</div>`);
+      return;
+    }
+    const rows = exts.map(ext => {
+      const days = daysLeft(ext.requested_deadline);
+      return `
+        <tr>
+          <td><div class="title-cell">${escHtml(ext.cfp_title)}</div><div class="org-cell">CFP #${ext.cfp_id}</div></td>
+          <td style="font-size:0.78rem">${ext.original_deadline}</td>
+          <td style="font-size:0.78rem;color:${days<14?"#F87171":"#6EE7B7"}">${ext.requested_deadline} <span style="color:#5A4F40">(${days}d away)</span></td>
+          <td style="font-size:0.78rem;max-width:180px;color:#5A4F40">${ext.reason ? escHtml(ext.reason) : "<em>No reason provided</em>"}</td>
+          <td><div class="btn-row"><button class="btn btn-green btn-sm" onclick="resolveExt(${ext.id},true)">✓ Approve</button><button class="btn btn-red btn-sm" onclick="resolveExt(${ext.id},false)">✕ Reject</button></div></td>
+        </tr>`;
+    }).join("");
+    setContent(`
+      <div class="page-title">Extension Requests</div>
+      <p class="page-sub">${exts.length} pending request${exts.length!==1?"s":""}.</p>
+      <div class="panel" style="padding:0;overflow:hidden">
+        <table class="tbl"><thead><tr><th>CFP</th><th>Current Deadline</th><th>Requested</th><th>Reason</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table>
+      </div>`);
+  } catch(e) { setContent(`<div class="err-box" style="display:block">Failed to load extensions: ${e.message}</div>`); }
+}
+
+async function resolveExt(extId, approved) {
+  const notes = window.prompt(`Optional note (or press OK to skip):`);
+  if (!window.confirm(`${approved?"Approve":"Reject"} extension #${extId}?`)) return;
+  try {
+    const res = await aPost(`/api/admin/extensions/${extId}/resolve`, { admin_key:ADMIN_KEY, approved, notes });
+    alert(approved ? `Extension approved. New deadline: ${res.new_deadline}` : "Extension rejected.");
+    renderExtensions();
+  } catch(e) { alert(`Error: ${e.message}`); }
+}
+
+async function renderStats() {
+  loading("Loading statistics…");
+  try {
+    const s = await aGet("/api/admin/stats");
+    const topCats = (s.top_categories||[]).map(c => `<li><span>${escHtml(c.name)}</span><span class="cat-count">${c.count}</span></li>`).join("");
+    setContent(`
+      <div class="page-title">Site Statistics</div>
+      <p class="page-sub">Live counts from the database.</p>
+      <div class="stats-grid">
+        <div class="stat gold"><div class="stat-val">${s.total_cfps}</div><div class="stat-label">Total CFPs</div></div>
+        <div class="stat green"><div class="stat-val">${s.active}</div><div class="stat-label">Active (live)</div></div>
+        <div class="stat"><div class="stat-val">${s.approved}</div><div class="stat-label">Approved</div></div>
+        <div class="stat"><div class="stat-val" style="color:#FCD34D">${s.pending}</div><div class="stat-label">Pending review</div></div>
+        <div class="stat"><div class="stat-val" style="color:#6B7280">${s.closed}</div><div class="stat-label">Past deadline</div></div>
+        <div class="stat red"><div class="stat-val">${s.rejected}</div><div class="stat-label">Rejected</div></div>
+        <div class="stat blue"><div class="stat-val">${s.total_views}</div><div class="stat-label">Total views</div></div>
+        <div class="stat"><div class="stat-val" style="color:#FCD34D">${s.pending_extensions}</div><div class="stat-label">Pending extensions</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div class="panel"><div class="panel-title">Top Categories</div><ul class="top-cats" style="list-style:none">${topCats||"<li style='color:#4A4035'>No data yet</li>"}</ul></div>
+        <div class="panel">
+          <div class="panel-title">RSS Feeds</div>
+          <p style="font-size:0.82rem;color:#5A4F40;line-height:1.65;margin-bottom:0.75rem">Subscribe in any feed reader. Per-category feeds available for all 41 categories.</p>
+          ${[["All listings","/rss/all"],["Conferences only","/rss/type/Conference"],["Journals only","/rss/type/Journal"],["Announcements","/rss/type/Announcement"]].map(([l,p])=>`<div style="margin-bottom:0.4rem"><a href="${API_BASE}${p}" target="_blank" style="font-size:0.8rem">${l}</a></div>`).join("")}
+        </div>
+      </div>`);
+  } catch(e) { setContent(`<div class="err-box" style="display:block">Failed to load stats: ${e.message}</div>`); }
+}
+
+async function renderBrowseAdmin(page=1, q="") {
+  loading("Loading CFPs…");
+  try {
+    const params = new URLSearchParams({ page, page_size:20, include_closed:true });
+    if (q) params.set("q", q);
+    const data = await aGet(`/api/cfps?${params}`);
+    const rows = (data.results||[]).map(cfp => `
+      <tr>
+        <td><div class="title-cell" style="cursor:pointer" onclick="openDrawer(${cfp.id})">${escHtml(cfp.title)}</div><div class="org-cell">${escHtml(cfp.organization)}</div></td>
+        <td>${typeBadge(cfp.listing_type)}</td>
+        <td>${statusBadge(cfp.status)}</td>
+        <td style="font-size:0.78rem">${fmtDate(cfp.deadline)}</td>
+        <td style="font-size:0.75rem;color:#5A4F40">${cfp.view_count}</td>
+        <td><div class="btn-row"><button class="btn btn-ghost btn-sm" onclick="openDrawer(${cfp.id})">View</button>${cfp.status==="approved" ? `<button class="btn btn-red btn-sm" onclick="archiveCFP(${cfp.id})">Archive</button>` : ""}</div></td>
+      </tr>`).join("");
+    setContent(`
+      <div class="page-title">All CFPs</div>
+      <p class="page-sub">Browse and manage all listings. Total: ${data.total}</p>
+      <div style="display:flex;gap:0.75rem;margin-bottom:1rem;flex-wrap:wrap">
+        <input id="admin-search" type="text" placeholder="Search title, org, content…" value="${escHtml(q)}"
+          style="flex:1;min-width:200px;background:#141009;border:1px solid #2A2218;border-radius:3px;padding:0.55rem 0.8rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;color:#C4B9A8;outline:none"
+          onkeydown="if(event.key==='Enter')renderBrowseAdmin(1,this.value)"/>
+        <button class="btn btn-ghost" onclick="renderBrowseAdmin(1,document.getElementById('admin-search').value)">Search</button>
+        <button class="btn btn-ghost" onclick="renderBrowseAdmin(1,'')">Clear</button>
+      </div>
+      <div class="panel" style="padding:0;overflow:hidden">
+        <table class="tbl"><thead><tr><th>Title / Org</th><th>Type</th><th>Status</th><th>Deadline</th><th>Views</th><th>Actions</th></tr></thead><tbody>${rows||`<tr><td colspan="6" class="empty">No results</td></tr>`}</tbody></table>
+      </div>
+      ${data.pages>1 ? `<div style="display:flex;justify-content:center;gap:0.75rem;margin-top:1rem;font-size:0.83rem;color:#5A4F40">${page>1?`<button class="btn btn-ghost btn-sm" onclick="renderBrowseAdmin(${page-1},'${escHtml(q)}')">← Prev</button>`:""}<span>Page ${page} of ${data.pages}</span>${page<data.pages?`<button class="btn btn-ghost btn-sm" onclick="renderBrowseAdmin(${page+1},'${escHtml(q)}')">Next →</button>`:""}</div>`:""}`);
+  } catch(e) { setContent(`<div class="err-box" style="display:block">Error: ${e.message}</div>`); }
+}
+
+async function archiveCFP(cfpId) {
+  if (!window.confirm(`Archive CFP #${cfpId}? It will be hidden from public browse but preserved in the DB.`)) return;
+  try {
+    await aPost(`/api/admin/cfps/${cfpId}/archive`, { admin_key:ADMIN_KEY, notes:"Archived via admin panel" });
+    alert(`CFP #${cfpId} archived.`); closeDrawer(); renderBrowseAdmin();
+  } catch(e) { alert(`Error: ${e.message}`); }
+}
+
+async function openDrawer(cfpId) {
+  document.getElementById("drawer-title").textContent = "Loading…";
+  document.getElementById("drawer-meta").textContent = "";
+  document.getElementById("drawer-body").innerHTML = '<div style="color:#4A4035;padding:1rem"><span class="spinner"></span> Loading…</div>';
+  document.getElementById("drawer-overlay").style.display = "block";
+  document.getElementById("drawer").classList.add("open");
+  try {
+    const [cfp, history] = await Promise.all([
+      fetch(`${API_BASE}/api/cfps/${cfpId}`).then(r=>r.json()),
+      aGet(`/api/admin/history/${cfpId}`).catch(()=>[]),
+    ]);
+    document.getElementById("drawer-title").textContent = cfp.title || cfp.detail || "CFP";
+    document.getElementById("drawer-meta").textContent = `#${cfpId} · ${cfp.organization||""}`;
+    if (cfp.detail) { document.getElementById("drawer-body").innerHTML = `<p style="color:#F87171">${cfp.detail}</p>`; return; }
+    const cats = (cfp.categories||[]).map(c=>`<span class="cat-tag">${escHtml(c.name||c)}</span>`).join("");
+    const hist = history.map(h=>`<div class="history-item"><div class="h-event">${escHtml(h.event)}</div><div class="h-time">${fmtDate(h.happened_at)}</div>${h.detail?`<div class="h-detail">${escHtml(h.detail)}</div>`:""}</div>`).join("") || `<div class="h-detail" style="padding:0.5rem 0">No history yet.</div>`;
+    document.getElementById("drawer-body").innerHTML = `
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem">${typeBadge(cfp.listing_type)} ${statusBadge(cfp.status)}${cfp.extension_count>0?`<span class="badge" style="background:#1E1B4B;color:#A5B4FC">extended ${cfp.extension_count}×</span>`:""}</div>
+      <div class="meta-grid">
+        <div class="meta-item"><div class="meta-label">Deadline</div><div class="meta-val">${fmtDate(cfp.deadline)}</div></div>
+        <div class="meta-item"><div class="meta-label">Contact</div><div class="meta-val" style="font-size:0.82rem"><a href="mailto:${cfp.contact_email}">${cfp.contact_email}</a></div></div>
+        <div class="meta-item"><div class="meta-label">Posted</div><div class="meta-val">${fmtDate(cfp.posted_at)}</div></div>
+        <div class="meta-item"><div class="meta-label">Views</div><div class="meta-val">${cfp.view_count}</div></div>
+      </div>
+      <div style="margin-bottom:0.75rem"><div style="font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:#4A4035;margin-bottom:0.4rem">Categories</div><div class="cats">${cats||"<span style='color:#4A4035;font-size:0.78rem'>None</span>"}</div></div>
+      <div style="font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:#4A4035;margin-bottom:0.35rem">Content</div>
+      <div class="content-preview">${escHtml(cfp.content||"")}</div>
+      ${cfp.status==="pending"?`<div class="btn-row" style="margin-bottom:1.2rem"><button class="btn btn-green" onclick="moderate(${cfpId},'approve')">✓ Approve</button><button class="btn btn-red" onclick="moderate(${cfpId},'reject')">✕ Reject</button></div>`:""}
+      ${cfp.status==="approved"?`<div class="btn-row" style="margin-bottom:1.2rem"><button class="btn btn-ghost btn-sm" onclick="archiveCFP(${cfpId})">Archive listing</button></div>`:""}
+      <div style="font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:#4A4035;margin-bottom:0.5rem;margin-top:0.5rem">Audit History</div>
+      <div>${hist}</div>`;
+  } catch(e) { document.getElementById("drawer-body").innerHTML = `<p style="color:#F87171">Error: ${e.message}</p>`; }
+}
+function closeDrawer() { document.getElementById("drawer").classList.remove("open"); document.getElementById("drawer-overlay").style.display = "none"; }
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeDrawer(); });
+</script>
+</body>
+</html>
