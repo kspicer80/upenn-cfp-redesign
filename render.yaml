@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: cfp-backend
+    env: python
+    rootDir: cfp-backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: ADMIN_KEY
+        value: change-me-before-deploying
+      - key: REQUIRE_APPROVAL
+        value: false
+      - key: AUTO_SEED_DEMO_DATA
+        value: true
+      - key: SITE_URL
+        value: https://cfp-frontend.onrender.com
+
+  - type: static
+    name: cfp-frontend
+    rootDir: cfp-frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        value: https://cfp-backend.onrender.com

@@ -9,10 +9,12 @@ On Render, the Start Command is:
 """
 
 from contextlib import asynccontextmanager
+from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from config import get_settings
 from database import init_db
@@ -28,6 +30,10 @@ async def lifespan(app: FastAPI):
 
 
 settings = get_settings()
+
+backend_dir = Path(__file__).resolve().parent
+frontend_dist_dir = backend_dir.parent / "cfp-frontend" / "dist"
+frontend_index_path = frontend_dist_dir / "index.html"
 
 app = FastAPI(
     title="CFP Commons API",
@@ -51,9 +57,16 @@ app.include_router(cfps_router, prefix="/api/cfps", tags=["CFPs"])
 app.include_router(admin_router, prefix="/api/admin", tags=["Admin"])
 app.include_router(rss_router, prefix="/rss", tags=["RSS"])
 
+if frontend_index_path.exists():
+    assets_dir = frontend_dist_dir / "assets"
+    if assets_dir.exists():
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+
 
 @app.get("/", include_in_schema=False)
 async def root():
+    if frontend_index_path.exists():
+        return FileResponse(frontend_index_path, media_type="text/html")
     return JSONResponse({
         "name": "CFP Commons API",
         "version": "0.2.0",
@@ -64,6 +77,15 @@ async def root():
             "by_type": "/rss/type/{Conference|Journal|Announcement}",
         },
     })
+
+
+@app.get("/{path:path}", include_in_schema=False)
+async def frontend_fallback(path: str):
+    if path.startswith(("api", "rss", "docs", "openapi.json", "health")):
+        raise HTTPException(status_code=404, detail="Not Found")
+    if frontend_index_path.exists():
+        return FileResponse(frontend_index_path, media_type="text/html")
+    raise HTTPException(status_code=404, detail="Not Found")
 
 
 @app.get("/health", include_in_schema=False)

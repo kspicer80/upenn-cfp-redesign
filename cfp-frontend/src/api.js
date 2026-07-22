@@ -1,11 +1,11 @@
 /**
  * api.js — Thin wrappers around fetch.
- * Relative URLs so the same code works via Vite's dev proxy locally and
- * via same-origin requests once deployed (frontend and backend both
- * behind the same domain, or CORS-enabled cross-origin in production).
+ * Uses the configured backend URL in production and falls back to the local
+ * dev server during development.
  */
 
-const BASE = "";
+const DEFAULT_BASE = "https://upenn-cfp-redesign.onrender.com";
+const BASE = (import.meta.env.VITE_API_BASE_URL || DEFAULT_BASE).replace(/\/$/, "");
 
 export class ApiError extends Error {
   constructor(message, status) {
