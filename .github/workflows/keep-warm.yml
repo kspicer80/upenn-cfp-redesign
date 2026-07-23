@@ -1,0 +1,34 @@
+# .github/workflows/keep-warm.yml
+#
+# OPTIONAL — not required for the site to work.
+#
+# Render's free tier spins the instance down after 15 minutes of
+# inactivity and takes 30-60s to wake back up on the next request. The
+# app already handles this gracefully (see the cold-start loading screen
+# in App.jsx + auto-seed in database.py), but if you want it to feel
+# instant during the specific days you're actively showing this to Penn
+# stakeholders, this workflow pings /health every 10 minutes to prevent
+# the spin-down from ever kicking in.
+#
+# IMPORTANT TRADE-OFF: Render's free workspace includes 750 compute hours
+# per month. Pinging every 10 minutes keeps the instance alive roughly
+# 24/7, which uses close to that entire allowance by itself. Fine for a
+# few days of active demoing — turn this off (delete the file, or disable
+# the workflow under the repo's Actions tab) once you're done, or it'll
+# quietly eat your free hours indefinitely.
+#
+# Setup: replace YOUR-APP below with your actual onrender.com subdomain.
+
+name: Keep Render instance warm
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # every 10 minutes
+  workflow_dispatch:          # lets you trigger it manually from the Actions tab too
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping health endpoint
+        run: curl -sf https://YOUR-APP.onrender.com/health || echo "Ping failed (instance may be waking up)"
