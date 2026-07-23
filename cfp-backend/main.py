@@ -45,11 +45,19 @@ def ensure_frontend_build():
         return
 
     if not shutil.which("npm"):
+        print("[startup] npm not available; skipping frontend build", file=sys.stderr)
         return
 
     print("[startup] Building frontend bundle for deployment…", file=sys.stderr)
-    subprocess.run(["npm", "install"], cwd=frontend_dir, check=True)
-    subprocess.run(["npm", "run", "build"], cwd=frontend_dir, check=True)
+    try:
+        subprocess.run(["npm", "install"], cwd=frontend_dir, check=True, capture_output=True, text=True)
+        subprocess.run(["npm", "run", "build"], cwd=frontend_dir, check=True, capture_output=True, text=True)
+    except subprocess.CalledProcessError as exc:
+        print(f"[startup] Frontend build failed: {exc}", file=sys.stderr)
+        if exc.stdout:
+            print(exc.stdout, file=sys.stderr)
+        if exc.stderr:
+            print(exc.stderr, file=sys.stderr)
 
 
 ensure_frontend_build()
