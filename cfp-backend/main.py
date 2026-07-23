@@ -8,12 +8,15 @@ On Render, the Start Command is:
     uvicorn main:app --host 0.0.0.0 --port $PORT
 """
 
+import shutil
+import subprocess
+import sys
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from config import get_settings
@@ -32,8 +35,24 @@ async def lifespan(app: FastAPI):
 settings = get_settings()
 
 backend_dir = Path(__file__).resolve().parent
-frontend_dist_dir = backend_dir.parent / "cfp-frontend" / "dist"
+frontend_dir = backend_dir.parent / "cfp-frontend"
+frontend_dist_dir = frontend_dir / "dist"
 frontend_index_path = frontend_dist_dir / "index.html"
+
+
+def ensure_frontend_build():
+    if frontend_index_path.exists():
+        return
+
+    if not shutil.which("npm"):
+        return
+
+    print("[startup] Building frontend bundle for deployment…", file=sys.stderr)
+    subprocess.run(["npm", "install"], cwd=frontend_dir, check=True)
+    subprocess.run(["npm", "run", "build"], cwd=frontend_dir, check=True)
+
+
+ensure_frontend_build()
 
 app = FastAPI(
     title="CFP Commons API",

@@ -10,7 +10,7 @@ const BASE = (import.meta.env.VITE_API_BASE_URL || DEFAULT_BASE).replace(/\/$/, 
 export class ApiError extends Error {
   constructor(message, status) {
     super(message);
-    this.status = status;
+    this.status = status;u
   }
 }
 
