@@ -5,7 +5,7 @@
  */
 
 const DEFAULT_BASE = "https://upenn-cfp-redesign.onrender.com";
-const BASE = (import.meta.env.VITE_API_BASE_URL || DEFAULT_BASE).replace(/\/$/, "");
+export const BASE = (import.meta.env.VITE_API_BASE_URL || DEFAULT_BASE).replace(/\/$/, "");
 
 export class ApiError extends Error {
   constructor(message, status) {
