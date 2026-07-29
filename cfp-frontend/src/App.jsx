@@ -30,7 +30,7 @@ function useToasts() {
   return { toasts, toast };
 }
 
-const TOAST_BG = { info: "#1C1810", success: "#2D6A4F", error: "#9B1C1C" };
+const TOAST_BG = { info: "#011F5B", success: "#2D6A4F", error: "#9B1C1C" };
 
 function Toasts({ toasts }) {
   return (
@@ -70,10 +70,10 @@ function ColdStartScreen({ slow }) {
   return (
     <div style={{ minHeight:"100vh", background:"#F5F1EB", display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column", gap:"1.2rem", padding:"2rem", textAlign:"center" }}>
       <style>{GOOGLE_FONTS}</style>
-      <div style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.5rem", fontWeight:700, color:"#1C1810" }}>
+      <div style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.5rem", fontWeight:700, color:"#011F5B" }}>
         CFP Commons
       </div>
-      <div style={{ width:"28px", height:"28px", border:"3px solid #E8E2D9", borderTopColor:"#B8935A", borderRadius:"50%", animation:"spin 0.8s linear infinite" }} />
+      <div style={{ width:"28px", height:"28px", border:"3px solid #E8E2D9", borderTopColor:"#990000", borderRadius:"50%", animation:"spin 0.8s linear infinite" }} />
       <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.88rem", color:"#7A6F60", maxWidth:"320px", lineHeight:1.6 }}>
         {slow
           ? "Waking up the demo server — this runs on free hosting, so the first load after a quiet spell can take up to a minute. Thanks for your patience!"
@@ -87,13 +87,13 @@ function LoadErrorScreen({ onRetry }) {
   return (
     <div style={{ minHeight:"100vh", background:"#F5F1EB", display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column", gap:"1rem", padding:"2rem", textAlign:"center" }}>
       <style>{GOOGLE_FONTS}</style>
-      <div style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.3rem", fontWeight:700, color:"#1C1810" }}>
+      <div style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.3rem", fontWeight:700, color:"#011F5B" }}>
         CFP Commons
       </div>
       <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.88rem", color:"#9B1C1C", maxWidth:"320px", lineHeight:1.6 }}>
         Couldn't reach the server. It may still be waking up — try again in a moment.
       </p>
-      <button onClick={onRetry} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.85rem", fontWeight:500, color:"#FEFCF8", background:"#1C1810", border:"none", borderRadius:"3px", padding:"0.6rem 1.4rem", cursor:"pointer" }}>
+      <button onClick={onRetry} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.85rem", fontWeight:500, color:"#FEFCF8", background:"#011F5B", border:"none", borderRadius:"3px", padding:"0.6rem 1.4rem", cursor:"pointer" }}>
         Try again
       </button>
     </div>
@@ -109,36 +109,36 @@ function TokenModal({ token, cfpId, title, onClose }) {
   const copy = () => navigator.clipboard.writeText(token).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2000); });
 
   return (
-    <div style={{ position:"fixed", inset:0, background:"rgba(20,16,10,0.78)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center", padding:"1rem", animation:"fadeIn 0.2s ease" }}>
+    <div style={{ position:"fixed", inset:0, background:"rgba(1,31,91,0.78)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center", padding:"1rem", animation:"fadeIn 0.2s ease" }}>
       <div style={{ background:"#FEFCF8", borderRadius:"6px", maxWidth:"520px", width:"100%", overflow:"hidden", boxShadow:"0 24px 80px rgba(0,0,0,0.45)", animation:"fadeUp 0.25s ease" }}>
-        <div style={{ background:"#B8935A", padding:"0.85rem 1.6rem", display:"flex", alignItems:"center", gap:"0.6rem" }}>
+        <div style={{ background:"#990000", padding:"0.85rem 1.6rem", display:"flex", alignItems:"center", gap:"0.6rem" }}>
           <span style={{fontSize:"1rem"}}>⚠</span>
           <span style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.78rem", fontWeight:600, color:"#FEFCF8", letterSpacing:"0.05em" }}>
             SAVE YOUR EDIT TOKEN — SHOWN ONLY ONCE
           </span>
         </div>
         <div style={{ padding:"1.8rem" }}>
-          <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.35rem", color:"#1C1810", marginBottom:"0.5rem" }}>CFP Submitted!</h2>
+          <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.35rem", color:"#011F5B", marginBottom:"0.5rem" }}>CFP Submitted!</h2>
           <p style={{ fontFamily:"'Lora',serif", fontSize:"0.9rem", color:"#5A4F40", lineHeight:1.65, marginBottom:"1.4rem" }}>
             <em>"{title}"</em> is pending review. A confirmation email with this token has been sent to your contact address.
           </p>
 
           <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.7rem", letterSpacing:"0.08em", textTransform:"uppercase", color:"#9A8F80", marginBottom:"0.45rem" }}>Edit Token</div>
-          <div style={{ background:"#1C1810", borderRadius:"4px", padding:"0.85rem 1rem", display:"flex", alignItems:"center", gap:"0.75rem", marginBottom:"1rem" }}>
-            <code style={{ fontFamily:"monospace", fontSize:"0.8rem", color:"#B8935A", wordBreak:"break-all", flex:1 }}>{token}</code>
-            <button onClick={copy} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.75rem", fontWeight:500, color:copied?"#2D6A4F":"#FEFCF8", background:copied?"#D8F3DC":"#3A3228", border:"none", borderRadius:"3px", padding:"0.4rem 0.8rem", cursor:"pointer", transition:"all 0.2s", flexShrink:0 }}>
+          <div style={{ background:"#011F5B", borderRadius:"4px", padding:"0.85rem 1rem", display:"flex", alignItems:"center", gap:"0.75rem", marginBottom:"1rem" }}>
+            <code style={{ fontFamily:"monospace", fontSize:"0.8rem", color:"#990000", wordBreak:"break-all", flex:1 }}>{token}</code>
+            <button onClick={copy} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.75rem", fontWeight:500, color:copied?"#2D6A4F":"#FEFCF8", background:copied?"#D8F3DC":"#1F3E72", border:"none", borderRadius:"3px", padding:"0.4rem 0.8rem", cursor:"pointer", transition:"all 0.2s", flexShrink:0 }}>
               {copied ? "✓ Copied" : "Copy"}
             </button>
           </div>
 
           <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.7rem", letterSpacing:"0.08em", textTransform:"uppercase", color:"#9A8F80", marginBottom:"0.45rem" }}>CFP ID</div>
-          <div style={{ background:"#F7F3EE", borderRadius:"4px", padding:"0.6rem 1rem", fontFamily:"monospace", fontSize:"0.85rem", color:"#1C1810", marginBottom:"1.4rem" }}>#{cfpId}</div>
+          <div style={{ background:"#F7F3EE", borderRadius:"4px", padding:"0.6rem 1rem", fontFamily:"monospace", fontSize:"0.85rem", color:"#011F5B", marginBottom:"1.4rem" }}>#{cfpId}</div>
 
           <div style={{ fontSize:"0.8rem", fontFamily:"'DM Sans',sans-serif", color:"#92400E", lineHeight:1.55, marginBottom:"1.4rem", padding:"0.75rem", background:"#FEF3C7", borderRadius:"3px", borderLeft:"3px solid #D97706" }}>
             You need both your <strong>CFP ID</strong> and <strong>edit token</strong> to edit this listing, request a deadline extension, or delete it. We cannot recover a lost token.
           </div>
 
-          <button onClick={onClose} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.88rem", fontWeight:500, color:"#FEFCF8", background:"#1C1810", border:"none", borderRadius:"3px", padding:"0.7rem 1.6rem", cursor:"pointer", width:"100%", letterSpacing:"0.04em" }}>
+          <button onClick={onClose} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.88rem", fontWeight:500, color:"#FEFCF8", background:"#011F5B", border:"none", borderRadius:"3px", padding:"0.7rem 1.6rem", cursor:"pointer", width:"100%", letterSpacing:"0.04em" }}>
             I've saved my token — close
           </button>
         </div>
@@ -151,7 +151,7 @@ function TokenModal({ token, cfpId, title, onClose }) {
 //  Shared UI atoms
 // ─────────────────────────────────────────────────────────────────────────────
 
-const TC = { Conference:{bg:"#EEF2FF",text:"#3730A3"}, Journal:{bg:"#FEF3C7",text:"#92400E"}, Announcement:{bg:"#D1FAE5",text:"#065F46"} };
+const TC = { Conference:{bg:"#E4E9F2",text:"#011F5B"}, Journal:{bg:"#FEF3C7",text:"#92400E"}, Announcement:{bg:"#D1FAE5",text:"#065F46"} };
 const fmtDate  = d => new Date(d + "T00:00:00").toLocaleDateString("en-US", { month:"long", day:"numeric", year:"numeric" });
 const daysLeft = d => Math.ceil((new Date(d + "T23:59:59") - new Date()) / 86400000);
 
@@ -162,18 +162,18 @@ function DeadlineBadge({ deadline }) {
 }
 
 function BackBtn({ onClick, label = "Back to listings" }) {
-  return <button onClick={onClick} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.82rem", color:"#B8935A", background:"none", border:"none", cursor:"pointer", padding:"0 0 1.5rem", display:"flex", alignItems:"center", gap:"0.4rem", letterSpacing:"0.04em" }}>← {label}</button>;
+  return <button onClick={onClick} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.82rem", color:"#990000", background:"none", border:"none", cursor:"pointer", padding:"0 0 1.5rem", display:"flex", alignItems:"center", gap:"0.4rem", letterSpacing:"0.04em" }}>← {label}</button>;
 }
 
-const inpBase = (err) => ({ width:"100%", fontFamily:"'DM Sans',sans-serif", fontSize:"0.9rem", color:"#1C1810", background:"#FEFCF8", border:`1px solid ${err?"#E53E3E":"#D8D0C4"}`, borderRadius:"3px", padding:"0.65rem 0.8rem", outline:"none", boxSizing:"border-box", transition:"border-color 0.15s" });
+const inpBase = (err) => ({ width:"100%", fontFamily:"'DM Sans',sans-serif", fontSize:"0.9rem", color:"#011F5B", background:"#FEFCF8", border:`1px solid ${err?"#E53E3E":"#D8D0C4"}`, borderRadius:"3px", padding:"0.65rem 0.8rem", outline:"none", boxSizing:"border-box", transition:"border-color 0.15s" });
 const LBL = { fontFamily:"'DM Sans',sans-serif", fontSize:"0.78rem", fontWeight:500, letterSpacing:"0.05em", textTransform:"uppercase", color:"#5A4F40", marginBottom:"0.4rem", display:"block" };
 const ERR = { fontFamily:"'DM Sans',sans-serif", fontSize:"0.75rem", color:"#E53E3E", marginTop:"0.3rem" };
 
 function Inp({ hasErr, style={}, ...props }) {
-  return <input {...props} style={{ ...inpBase(hasErr), ...style }} onFocus={e=>e.target.style.borderColor="#B8935A"} onBlur={e=>e.target.style.borderColor=hasErr?"#E53E3E":"#D8D0C4"} />;
+  return <input {...props} style={{ ...inpBase(hasErr), ...style }} onFocus={e=>e.target.style.borderColor="#990000"} onBlur={e=>e.target.style.borderColor=hasErr?"#E53E3E":"#D8D0C4"} />;
 }
 function Textarea({ hasErr, style={}, ...props }) {
-  return <textarea {...props} style={{ ...inpBase(hasErr), resize:"vertical", minHeight:"160px", lineHeight:1.65, ...style }} onFocus={e=>e.target.style.borderColor="#B8935A"} onBlur={e=>e.target.style.borderColor=hasErr?"#E53E3E":"#D8D0C4"} />;
+  return <textarea {...props} style={{ ...inpBase(hasErr), resize:"vertical", minHeight:"160px", lineHeight:1.65, ...style }} onFocus={e=>e.target.style.borderColor="#990000"} onBlur={e=>e.target.style.borderColor=hasErr?"#E53E3E":"#D8D0C4"} />;
 }
 function Select({ style={}, ...props }) {
   return <select {...props} style={{ ...inpBase(false), appearance:"none", cursor:"pointer", backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239A8F80' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`, backgroundRepeat:"no-repeat", backgroundPosition:"right 0.8rem center", paddingRight:"2.2rem", ...style }} />;
@@ -186,8 +186,8 @@ function CategoryGrid({ categories, selected, onToggle, hasErr }) {
           const checked = selected.includes(cat.id);
           const disabled = !checked && selected.length >= 5;
           return (
-            <label key={cat.id} style={{ display:"flex", alignItems:"center", gap:"0.45rem", cursor:disabled?"not-allowed":"pointer", opacity:disabled?0.4:1, fontFamily:"'DM Sans',sans-serif", fontSize:"0.81rem", color:checked?"#1C1810":"#5A4F40", fontWeight:checked?500:400 }}>
-              <input type="checkbox" checked={checked} disabled={disabled} onChange={()=>onToggle(cat.id)} style={{ accentColor:"#B8935A", width:"13px", height:"13px" }} />
+            <label key={cat.id} style={{ display:"flex", alignItems:"center", gap:"0.45rem", cursor:disabled?"not-allowed":"pointer", opacity:disabled?0.4:1, fontFamily:"'DM Sans',sans-serif", fontSize:"0.81rem", color:checked?"#011F5B":"#5A4F40", fontWeight:checked?500:400 }}>
+              <input type="checkbox" checked={checked} disabled={disabled} onChange={()=>onToggle(cat.id)} style={{ accentColor:"#990000", width:"13px", height:"13px" }} />
               {cat.name}
             </label>
           );
@@ -207,9 +207,9 @@ function CFPCard({ cfp, onClick }) {
   const tc = TC[cfp.listing_type] || TC.Announcement;
   return (
     <div onClick={onClick} onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
-      style={{ background:"#FEFCF8", border:`1px solid ${hov?"#B8935A":"#E8E2D9"}`, borderRadius:"4px", padding:"1.4rem 1.6rem", cursor:"pointer", transition:"all 0.18s ease", marginBottom:"0.85rem", boxShadow:hov?"0 4px 16px rgba(0,0,0,0.09)":"0 1px 3px rgba(0,0,0,0.04)", transform:hov?"translateY(-1px)":"" }}>
+      style={{ background:"#FEFCF8", border:`1px solid ${hov?"#990000":"#E8E2D9"}`, borderRadius:"4px", padding:"1.4rem 1.6rem", cursor:"pointer", transition:"all 0.18s ease", marginBottom:"0.85rem", boxShadow:hov?"0 4px 16px rgba(0,0,0,0.09)":"0 1px 3px rgba(0,0,0,0.04)", transform:hov?"translateY(-1px)":"" }}>
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", gap:"1rem", marginBottom:"0.5rem" }}>
-        <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.08rem", fontWeight:600, color:"#1C1810", lineHeight:1.35, flex:1 }}>{cfp.title}</h3>
+        <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.08rem", fontWeight:600, color:"#011F5B", lineHeight:1.35, flex:1 }}>{cfp.title}</h3>
         <span style={{ fontSize:"0.7rem", fontFamily:"'DM Sans',sans-serif", fontWeight:500, letterSpacing:"0.07em", textTransform:"uppercase", padding:"3px 9px", borderRadius:"3px", background:tc.bg, color:tc.text, whiteSpace:"nowrap", flexShrink:0 }}>{cfp.listing_type}</span>
       </div>
       <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.82rem", color:"#7A6F60", marginBottom:"0.8rem" }}>
@@ -261,7 +261,7 @@ function CFPDetail({ cfpId, onBack, onManage }) {
         {cfp.extension_count > 0 && <span style={{ fontSize:"0.72rem", fontFamily:"'DM Sans',sans-serif", color:"#9A8F80", fontStyle:"italic" }}>deadline extended {cfp.extension_count}×</span>}
       </div>
 
-      <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.9rem", fontWeight:700, color:"#1C1810", lineHeight:1.25, marginBottom:"0.6rem" }}>{cfp.title}</h1>
+      <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.9rem", fontWeight:700, color:"#011F5B", lineHeight:1.25, marginBottom:"0.6rem" }}>{cfp.title}</h1>
       <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.9rem", color:"#7A6F60", marginBottom:"0.25rem" }}>{cfp.organization}</p>
       <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.82rem", color:"#9A8F80", marginBottom:"2rem" }}>
         Posted {fmtDate(cfp.posted_at.slice(0,10))}
@@ -272,7 +272,7 @@ function CFPDetail({ cfpId, onBack, onManage }) {
         {[["Submission Deadline", fmtDate(cfp.deadline)], ["Contact", cfp.contact_email]].map(([label, val]) => (
           <div key={label}>
             <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.7rem", letterSpacing:"0.08em", textTransform:"uppercase", color:"#9A8F80", marginBottom:"0.25rem" }}>{label}</div>
-            <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.9rem", color:"#1C1810", fontWeight:500 }}>{val}</div>
+            <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.9rem", color:"#011F5B", fontWeight:500 }}>{val}</div>
           </div>
         ))}
       </div>
@@ -289,7 +289,7 @@ function CFPDetail({ cfpId, onBack, onManage }) {
       </div>
 
       <div style={{ display:"flex", gap:"0.75rem", flexWrap:"wrap" }}>
-        <a href={`mailto:${cfp.contact_email}`} style={{ display:"inline-block", fontFamily:"'DM Sans',sans-serif", fontSize:"0.88rem", fontWeight:500, color:"#FEFCF8", background:"#1C1810", padding:"0.65rem 1.4rem", borderRadius:"3px", textDecoration:"none", letterSpacing:"0.04em" }}>Contact Organizers →</a>
+        <a href={`mailto:${cfp.contact_email}`} style={{ display:"inline-block", fontFamily:"'DM Sans',sans-serif", fontSize:"0.88rem", fontWeight:500, color:"#FEFCF8", background:"#011F5B", padding:"0.65rem 1.4rem", borderRadius:"3px", textDecoration:"none", letterSpacing:"0.04em" }}>Contact Organizers →</a>
         <button onClick={onManage} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.88rem", color:"#7A6F60", background:"none", border:"1px solid #D8D0C4", padding:"0.65rem 1.2rem", borderRadius:"3px", cursor:"pointer" }}>Manage this listing</button>
       </div>
     </div>
@@ -332,23 +332,23 @@ function SubmitForm({ categories, onBack, onSuccess }) {
   return (
     <div style={{ maxWidth:"680px", animation:"fadeUp 0.25s ease" }}>
       <BackBtn onClick={onBack} />
-      <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:"2rem", fontWeight:700, color:"#1C1810", marginBottom:"0.5rem" }}>Submit a Call for Papers</h1>
+      <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:"2rem", fontWeight:700, color:"#011F5B", marginBottom:"0.5rem" }}>Submit a Call for Papers</h1>
       <p style={{ fontFamily:"'Lora',serif", color:"#7A6F60", marginBottom:"2rem", lineHeight:1.6 }}>
-        Listings are reviewed before publication. Fields marked <span style={{color:"#B8935A"}}>*</span> are required.
+        Listings are reviewed before publication. Fields marked <span style={{color:"#990000"}}>*</span> are required.
         You'll receive an <strong>edit token</strong> on submission — keep it safe.
       </p>
       {errs.submit && <div style={{ background:"#FEE2E2", border:"1px solid #FCA5A5", borderRadius:"3px", padding:"0.75rem 1rem", marginBottom:"1.2rem", fontFamily:"'DM Sans',sans-serif", fontSize:"0.85rem", color:"#9B1C1C" }}>{errs.submit}</div>}
 
       <div style={{ display:"grid", gap:"1.4rem" }}>
         <div>
-          <label style={LBL}>Title <span style={{color:"#B8935A"}}>*</span></label>
+          <label style={LBL}>Title <span style={{color:"#990000"}}>*</span></label>
           <Inp value={f.title} onChange={e=>set("title",e.target.value)} hasErr={!!errs.title} placeholder="Title of your CFP, conference, or announcement" />
           {errs.title && <div style={ERR}>{errs.title}</div>}
         </div>
 
         <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"1rem" }}>
           <div>
-            <label style={LBL}>Organization <span style={{color:"#B8935A"}}>*</span></label>
+            <label style={LBL}>Organization <span style={{color:"#990000"}}>*</span></label>
             <Inp value={f.org} onChange={e=>set("org",e.target.value)} hasErr={!!errs.org} placeholder="Journal, society, or institution" />
             {errs.org && <div style={ERR}>{errs.org}</div>}
           </div>
@@ -360,31 +360,31 @@ function SubmitForm({ categories, onBack, onSuccess }) {
 
         <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"1rem" }}>
           <div>
-            <label style={LBL}>Contact Email <span style={{color:"#B8935A"}}>*</span></label>
+            <label style={LBL}>Contact Email <span style={{color:"#990000"}}>*</span></label>
             <Inp type="email" value={f.email} onChange={e=>set("email",e.target.value)} hasErr={!!errs.email} placeholder="contact@institution.edu" />
             {errs.email && <div style={ERR}>{errs.email}</div>}
           </div>
           <div>
-            <label style={LBL}>Submission Deadline <span style={{color:"#B8935A"}}>*</span></label>
+            <label style={LBL}>Submission Deadline <span style={{color:"#990000"}}>*</span></label>
             <Inp type="date" value={f.deadline} onChange={e=>set("deadline",e.target.value)} hasErr={!!errs.deadline} />
             {errs.deadline && <div style={ERR}>{errs.deadline}</div>}
           </div>
         </div>
 
         <div>
-          <label style={LBL}>CFP Content <span style={{color:"#B8935A"}}>*</span></label>
+          <label style={LBL}>CFP Content <span style={{color:"#990000"}}>*</span></label>
           <Textarea value={f.content} onChange={e=>set("content",e.target.value)} hasErr={!!errs.content} placeholder="Full description: topics, guidelines, word limits, conference details, etc." style={{ minHeight:"180px" }} />
           {errs.content && <div style={ERR}>{errs.content}</div>}
         </div>
 
         <div>
-          <label style={LBL}>Categories <span style={{color:"#B8935A"}}>*</span> <span style={{ fontWeight:400, textTransform:"none", fontSize:"0.73rem", color:"#9A8F80" }}>— select up to 5</span></label>
+          <label style={LBL}>Categories <span style={{color:"#990000"}}>*</span> <span style={{ fontWeight:400, textTransform:"none", fontSize:"0.73rem", color:"#9A8F80" }}>— select up to 5</span></label>
           <CategoryGrid categories={categories} selected={f.catIds} onToggle={toggleCat} hasErr={!!errs.cats} />
           {errs.cats && <div style={ERR}>{errs.cats}</div>}
         </div>
 
         <div style={{ display:"flex", gap:"0.75rem" }}>
-          <button onClick={submit} disabled={saving} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.9rem", fontWeight:500, color:"#FEFCF8", background:saving?"#6B6050":"#1C1810", border:"none", borderRadius:"3px", padding:"0.7rem 1.6rem", cursor:saving?"not-allowed":"pointer", letterSpacing:"0.04em", transition:"background 0.15s" }}>
+          <button onClick={submit} disabled={saving} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.9rem", fontWeight:500, color:"#FEFCF8", background:saving?"#6B6050":"#011F5B", border:"none", borderRadius:"3px", padding:"0.7rem 1.6rem", cursor:saving?"not-allowed":"pointer", letterSpacing:"0.04em", transition:"background 0.15s" }}>
             {saving ? "Submitting…" : "Submit CFP"}
           </button>
           <button onClick={onBack} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.9rem", color:"#7A6F60", background:"none", border:"1px solid #D8D0C4", padding:"0.7rem 1.4rem", borderRadius:"3px", cursor:"pointer" }}>Cancel</button>
@@ -463,7 +463,7 @@ function ManageView({ prefillId, categories, onBack, toast }) {
   return (
     <div style={{ maxWidth:"680px", animation:"fadeUp 0.25s ease" }}>
       <BackBtn onClick={onBack} />
-      <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:"2rem", fontWeight:700, color:"#1C1810", marginBottom:"0.5rem" }}>Manage your CFP</h1>
+      <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:"2rem", fontWeight:700, color:"#011F5B", marginBottom:"0.5rem" }}>Manage your CFP</h1>
       <p style={{ fontFamily:"'Lora',serif", color:"#7A6F60", marginBottom:"1.8rem", lineHeight:1.6 }}>Enter your CFP ID and edit token to edit your listing, extend its deadline, or remove it.</p>
 
       {!cfp && (
@@ -473,7 +473,7 @@ function ManageView({ prefillId, categories, onBack, toast }) {
             <div><label style={LBL}>Edit Token</label><Inp value={token} onChange={e=>setToken(e.target.value)} placeholder="Your secret token" style={{ fontFamily:"monospace", fontSize:"0.8rem" }} /></div>
           </div>
           {lookErr && <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.82rem", color:"#9B1C1C", marginBottom:"0.75rem" }}>{lookErr}</div>}
-          <button onClick={lookup} disabled={loading} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.88rem", fontWeight:500, color:"#FEFCF8", background:"#1C1810", border:"none", borderRadius:"3px", padding:"0.65rem 1.4rem", cursor:loading?"not-allowed":"pointer", letterSpacing:"0.04em" }}>
+          <button onClick={lookup} disabled={loading} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.88rem", fontWeight:500, color:"#FEFCF8", background:"#011F5B", border:"none", borderRadius:"3px", padding:"0.65rem 1.4rem", cursor:loading?"not-allowed":"pointer", letterSpacing:"0.04em" }}>
             {loading ? "Looking up…" : "Access my CFP"}
           </button>
         </div>
@@ -482,7 +482,7 @@ function ManageView({ prefillId, categories, onBack, toast }) {
       {cfp && (<>
         <div style={{ background:"#FEFCF8", border:"1px solid #E8E2D9", borderRadius:"4px", padding:"1rem 1.2rem", marginBottom:"1.4rem", display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:"0.5rem" }}>
           <div>
-            <div style={{ fontFamily:"'Playfair Display',serif", fontSize:"1rem", fontWeight:600, color:"#1C1810" }}>{cfp.title}</div>
+            <div style={{ fontFamily:"'Playfair Display',serif", fontSize:"1rem", fontWeight:600, color:"#011F5B" }}>{cfp.title}</div>
             <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.78rem", color:"#9A8F80" }}>ID #{cfpId} · Deadline: {fmtDate(cfp.deadline)} · Status: {cfp.status}</div>
           </div>
           <button onClick={()=>{setCfp(null);setExts([]);}} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.75rem", color:"#9A8F80", background:"none", border:"none", cursor:"pointer" }}>Switch listing</button>
@@ -490,7 +490,7 @@ function ManageView({ prefillId, categories, onBack, toast }) {
 
         <div style={{ display:"flex", borderBottom:"2px solid #E8E2D9", marginBottom:"1.6rem" }}>
           {TABS.map(([key,label]) => (
-            <button key={key} onClick={()=>setTab(key)} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.83rem", fontWeight:tab===key?600:400, color:tab===key?(key==="delete"?"#9B1C1C":"#1C1810"):"#7A6F60", background:"none", border:"none", borderBottom:`2px solid ${tab===key?(key==="delete"?"#9B1C1C":"#B8935A"):"transparent"}`, padding:"0.6rem 1rem", cursor:"pointer", marginBottom:"-2px", transition:"all 0.15s" }}>
+            <button key={key} onClick={()=>setTab(key)} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.83rem", fontWeight:tab===key?600:400, color:tab===key?(key==="delete"?"#9B1C1C":"#011F5B"):"#7A6F60", background:"none", border:"none", borderBottom:`2px solid ${tab===key?(key==="delete"?"#9B1C1C":"#990000"):"transparent"}`, padding:"0.6rem 1rem", cursor:"pointer", marginBottom:"-2px", transition:"all 0.15s" }}>
               {label}
             </button>
           ))}
@@ -509,7 +509,7 @@ function ManageView({ prefillId, categories, onBack, toast }) {
               <label style={LBL}>Categories <span style={{ fontWeight:400, textTransform:"none", fontSize:"0.73rem", color:"#9A8F80" }}>— up to 5</span></label>
               <CategoryGrid categories={categories} selected={editF.catIds||[]} onToggle={toggleEditCat}/>
             </div>
-            <button onClick={saveEdit} disabled={saving} style={{ alignSelf:"start", fontFamily:"'DM Sans',sans-serif", fontSize:"0.88rem", fontWeight:500, color:"#FEFCF8", background:saving?"#6B6050":"#1C1810", border:"none", borderRadius:"3px", padding:"0.65rem 1.4rem", cursor:saving?"not-allowed":"pointer", letterSpacing:"0.04em" }}>
+            <button onClick={saveEdit} disabled={saving} style={{ alignSelf:"start", fontFamily:"'DM Sans',sans-serif", fontSize:"0.88rem", fontWeight:500, color:"#FEFCF8", background:saving?"#6B6050":"#011F5B", border:"none", borderRadius:"3px", padding:"0.65rem 1.4rem", cursor:saving?"not-allowed":"pointer", letterSpacing:"0.04em" }}>
               {saving ? "Saving…" : "Save changes"}
             </button>
           </div>
@@ -519,10 +519,10 @@ function ManageView({ prefillId, categories, onBack, toast }) {
           <div style={{ display:"grid", gap:"1.2rem" }}>
             <div style={{ background:"#F7F3EE", border:"1px solid #E8E2D9", borderRadius:"4px", padding:"1rem 1.2rem" }}>
               <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.72rem", letterSpacing:"0.07em", textTransform:"uppercase", color:"#9A8F80", marginBottom:"0.25rem" }}>Current deadline</div>
-              <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"1rem", color:"#1C1810", fontWeight:500 }}>{fmtDate(cfp.deadline)}</div>
+              <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"1rem", color:"#011F5B", fontWeight:500 }}>{fmtDate(cfp.deadline)}</div>
             </div>
             <div>
-              <label style={LBL}>New Deadline <span style={{color:"#B8935A"}}>*</span></label>
+              <label style={LBL}>New Deadline <span style={{color:"#990000"}}>*</span></label>
               <Inp type="date" value={extF.new_deadline} onChange={e=>setExtF(p=>({...p,new_deadline:e.target.value}))}/>
               <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.73rem", color:"#9A8F80", marginTop:"0.3rem" }}>Must be after current deadline. Max 6 months from original post date.</div>
             </div>
@@ -533,7 +533,7 @@ function ManageView({ prefillId, categories, onBack, toast }) {
             <div style={{ background:"#FEF3C7", border:"1px solid #FDE68A", borderRadius:"3px", padding:"0.75rem 1rem", fontFamily:"'DM Sans',sans-serif", fontSize:"0.8rem", color:"#92400E" }}>
               Extension requests are reviewed before the deadline is updated publicly.
             </div>
-            <button onClick={requestExt} disabled={saving} style={{ alignSelf:"start", fontFamily:"'DM Sans',sans-serif", fontSize:"0.88rem", fontWeight:500, color:"#FEFCF8", background:saving?"#6B6050":"#B8935A", border:"none", borderRadius:"3px", padding:"0.65rem 1.4rem", cursor:saving?"not-allowed":"pointer", letterSpacing:"0.04em" }}>
+            <button onClick={requestExt} disabled={saving} style={{ alignSelf:"start", fontFamily:"'DM Sans',sans-serif", fontSize:"0.88rem", fontWeight:500, color:"#FEFCF8", background:saving?"#6B6050":"#990000", border:"none", borderRadius:"3px", padding:"0.65rem 1.4rem", cursor:saving?"not-allowed":"pointer", letterSpacing:"0.04em" }}>
               {saving ? "Submitting…" : "Request extension"}
             </button>
           </div>
@@ -551,7 +551,7 @@ function ManageView({ prefillId, categories, onBack, toast }) {
                         <span style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.78rem", color:"#7A6F60" }}>{new Date(ext.requested_at).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})}</span>
                         <span style={{ fontSize:"0.72rem", fontFamily:"'DM Sans',sans-serif", fontWeight:500, padding:"2px 8px", borderRadius:"10px", background:sc.bg, color:sc.text }}>{ext.status}</span>
                       </div>
-                      <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.85rem", color:"#1C1810" }}>{ext.original_deadline} → <strong>{ext.requested_deadline}</strong></div>
+                      <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.85rem", color:"#011F5B" }}>{ext.original_deadline} → <strong>{ext.requested_deadline}</strong></div>
                       {ext.reason && <div style={{ fontFamily:"'Lora',serif", fontSize:"0.82rem", color:"#5A4F40", marginTop:"0.35rem", fontStyle:"italic" }}>{ext.reason}</div>}
                     </div>
                   );
@@ -625,7 +625,7 @@ function BrowseView({ categories, onSelect, onSubmit }) {
 
   const toggleSlug = s => setSlug(p => p.includes(s) ? p.filter(x=>x!==s) : [...p,s]);
   const sbCats = categories.slice(0, 22);
-  const selStyle = { background:"#1C1810", border:"1px solid #3A3228", borderRadius:"3px", padding:"0.65rem 2rem 0.65rem 0.8rem", fontFamily:"'DM Sans',sans-serif", fontSize:"0.85rem", color:"#C4B9A8", outline:"none", cursor:"pointer", appearance:"none", backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236B6050' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`, backgroundRepeat:"no-repeat", backgroundPosition:"right 0.7rem center" };
+  const selStyle = { background:"#011F5B", border:"1px solid #1F3E72", borderRadius:"3px", padding:"0.65rem 2rem 0.65rem 0.8rem", fontFamily:"'DM Sans',sans-serif", fontSize:"0.85rem", color:"#C4B9A8", outline:"none", cursor:"pointer", appearance:"none", backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236B6050' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`, backgroundRepeat:"no-repeat", backgroundPosition:"right 0.7rem center" };
 
   // NEW — dynamic section heading: names the single active category when
   // there is exactly one, otherwise reads as the real site's "all recent
@@ -636,17 +636,17 @@ function BrowseView({ categories, onSelect, onSubmit }) {
 
   return (
     <>
-      <div style={{ background:"#241F16", borderBottom:"1px solid #3A3228", padding:"1.6rem 2rem" }}>
+      <div style={{ background:"#14315F", borderBottom:"1px solid #1F3E72", padding:"1.6rem 2rem" }}>
         <div style={{ maxWidth:"1200px", margin:"0 auto", display:"flex", gap:"0.75rem", flexWrap:"wrap", alignItems:"center" }}>
           <div style={{ flex:1, minWidth:"240px", position:"relative" }}>
             <span style={{ position:"absolute", left:"0.8rem", top:"50%", transform:"translateY(-50%)", color:"#6B6050", fontSize:"1rem", pointerEvents:"none" }}>⌕</span>
             <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search titles, organizations, or keywords…"
-              style={{ width:"100%", background:"#1C1810", border:"1px solid #3A3228", borderRadius:"3px", padding:"0.65rem 0.8rem 0.65rem 2.2rem", fontFamily:"'DM Sans',sans-serif", fontSize:"0.88rem", color:"#FEFCF8", outline:"none", boxSizing:"border-box" }}
-              onFocus={e=>e.target.style.borderColor="#B8935A"} onBlur={e=>e.target.style.borderColor="#3A3228"}/>
+              style={{ width:"100%", background:"#011F5B", border:"1px solid #1F3E72", borderRadius:"3px", padding:"0.65rem 0.8rem 0.65rem 2.2rem", fontFamily:"'DM Sans',sans-serif", fontSize:"0.88rem", color:"#FEFCF8", outline:"none", boxSizing:"border-box" }}
+              onFocus={e=>e.target.style.borderColor="#990000"} onBlur={e=>e.target.style.borderColor="#1F3E72"}/>
           </div>
           <select style={selStyle} value={type} onChange={e=>setType(e.target.value)}>{["All","Conference","Journal","Announcement"].map(o=><option key={o}>{o}</option>)}</select>
           <label style={{ display:"flex", alignItems:"center", gap:"0.4rem", fontFamily:"'DM Sans',sans-serif", fontSize:"0.82rem", color:"#9A8F80", cursor:"pointer", userSelect:"none" }}>
-            <input type="checkbox" checked={closed} onChange={e=>setClosed(e.target.checked)} style={{ accentColor:"#B8935A" }}/>Include past
+            <input type="checkbox" checked={closed} onChange={e=>setClosed(e.target.checked)} style={{ accentColor:"#990000" }}/>Include past
           </label>
         </div>
       </div>
@@ -659,31 +659,31 @@ function BrowseView({ categories, onSelect, onSubmit }) {
               <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"0.6rem" }}>
                 <span style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.7rem", letterSpacing:"0.08em", textTransform:"uppercase", color:"#9A8F80", fontWeight:500 }}>Deadline Range</span>
                 {(deadlineFrom || deadlineTo) && (
-                  <button onClick={()=>{setDeadlineFrom("");setDeadlineTo("");}} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.7rem", color:"#B8935A", background:"none", border:"none", cursor:"pointer", padding:0 }}>Clear</button>
+                  <button onClick={()=>{setDeadlineFrom("");setDeadlineTo("");}} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.7rem", color:"#990000", background:"none", border:"none", cursor:"pointer", padding:0 }}>Clear</button>
                 )}
               </div>
               <div style={{ display:"grid", gap:"0.5rem" }}>
                 <div>
                   <label style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.68rem", color:"#9A8F80", marginBottom:"0.2rem", display:"block" }}>From</label>
                   <input type="date" value={deadlineFrom} onChange={e=>setDeadlineFrom(e.target.value)}
-                    style={{ width:"100%", fontFamily:"'DM Sans',sans-serif", fontSize:"0.8rem", color:"#1C1810", background:"#FEFCF8", border:"1px solid #D8D0C4", borderRadius:"3px", padding:"0.4rem 0.5rem", outline:"none", boxSizing:"border-box" }} />
+                    style={{ width:"100%", fontFamily:"'DM Sans',sans-serif", fontSize:"0.8rem", color:"#011F5B", background:"#FEFCF8", border:"1px solid #D8D0C4", borderRadius:"3px", padding:"0.4rem 0.5rem", outline:"none", boxSizing:"border-box" }} />
                 </div>
                 <div>
                   <label style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.68rem", color:"#9A8F80", marginBottom:"0.2rem", display:"block" }}>To</label>
                   <input type="date" value={deadlineTo} onChange={e=>setDeadlineTo(e.target.value)}
-                    style={{ width:"100%", fontFamily:"'DM Sans',sans-serif", fontSize:"0.8rem", color:"#1C1810", background:"#FEFCF8", border:"1px solid #D8D0C4", borderRadius:"3px", padding:"0.4rem 0.5rem", outline:"none", boxSizing:"border-box" }} />
+                    style={{ width:"100%", fontFamily:"'DM Sans',sans-serif", fontSize:"0.8rem", color:"#011F5B", background:"#FEFCF8", border:"1px solid #D8D0C4", borderRadius:"3px", padding:"0.4rem 0.5rem", outline:"none", boxSizing:"border-box" }} />
                 </div>
               </div>
             </div>
 
             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"0.9rem" }}>
               <span style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.7rem", letterSpacing:"0.08em", textTransform:"uppercase", color:"#9A8F80", fontWeight:500 }}>Filter by Category</span>
-              {activeSlugs.length>0 && <button onClick={()=>setSlug([])} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.7rem", color:"#B8935A", background:"none", border:"none", cursor:"pointer" }}>Clear</button>}
+              {activeSlugs.length>0 && <button onClick={()=>setSlug([])} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.7rem", color:"#990000", background:"none", border:"none", cursor:"pointer" }}>Clear</button>}
             </div>
             {sbCats.map(c => (
               <label key={c.slug} style={{ display:"flex", alignItems:"center", gap:"0.5rem", padding:"0.3rem 0", cursor:"pointer" }}>
-                <input type="checkbox" checked={activeSlugs.includes(c.slug)} onChange={()=>toggleSlug(c.slug)} style={{ accentColor:"#B8935A", width:"13px", height:"13px" }}/>
-                <span style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.79rem", color:activeSlugs.includes(c.slug)?"#1C1810":"#5A4F40", fontWeight:activeSlugs.includes(c.slug)?500:400, lineHeight:1.3 }}>{c.name}</span>
+                <input type="checkbox" checked={activeSlugs.includes(c.slug)} onChange={()=>toggleSlug(c.slug)} style={{ accentColor:"#990000", width:"13px", height:"13px" }}/>
+                <span style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.79rem", color:activeSlugs.includes(c.slug)?"#011F5B":"#5A4F40", fontWeight:activeSlugs.includes(c.slug)?500:400, lineHeight:1.3 }}>{c.name}</span>
               </label>
             ))}
             {categories.length > sbCats.length && (
@@ -697,13 +697,13 @@ function BrowseView({ categories, onSelect, onSubmit }) {
         <div>
           {/* NEW — page masthead: dynamic heading + prominent sort toggle */}
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-end", flexWrap:"wrap", gap:"1rem", marginBottom:"0.5rem" }}>
-            <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.55rem", fontWeight:700, color:"#1C1810", lineHeight:1.2 }}>
+            <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.55rem", fontWeight:700, color:"#011F5B", lineHeight:1.2 }}>
               {headingText}
             </h2>
             <div style={{ display:"flex", background:"#F0EBE3", borderRadius:"20px", padding:"3px", flexShrink:0 }}>
               {[["recent","Most Recent"],["deadline","Soonest Deadline"]].map(([key,label]) => (
                 <button key={key} onClick={()=>setSort(key)}
-                  style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.78rem", fontWeight:500, letterSpacing:"0.01em", padding:"0.45rem 0.9rem", borderRadius:"17px", border:"none", cursor:"pointer", transition:"all 0.15s", background:sort===key?"#1C1810":"transparent", color:sort===key?"#FEFCF8":"#7A6F60" }}>
+                  style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.78rem", fontWeight:500, letterSpacing:"0.01em", padding:"0.45rem 0.9rem", borderRadius:"17px", border:"none", cursor:"pointer", transition:"all 0.15s", background:sort===key?"#011F5B":"transparent", color:sort===key?"#FEFCF8":"#7A6F60" }}>
                   {label}
                 </button>
               ))}
@@ -714,8 +714,8 @@ function BrowseView({ categories, onSelect, onSubmit }) {
             <span style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.82rem", color:"#9A8F80" }}>
               {loading ? "Loading…" : `${meta.total} listing${meta.total!==1?"s":""}${debSearch?` for "${debSearch}"`:""}${activeSlugs.length?` · ${activeSlugs.length} category filter${activeSlugs.length>1?"s":""}`:""}${(deadlineFrom||deadlineTo)?` · deadline ${deadlineFrom||"any"}–${deadlineTo||"any"}`:""}`}
             </span>
-            <button onClick={onSubmit} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.82rem", fontWeight:500, color:"#FEFCF8", background:"#B8935A", border:"none", borderRadius:"3px", padding:"0.5rem 1rem", cursor:"pointer", letterSpacing:"0.03em", transition:"background 0.15s" }}
-              onMouseEnter={e=>e.currentTarget.style.background="#A07A3C"} onMouseLeave={e=>e.currentTarget.style.background="#B8935A"}>
+            <button onClick={onSubmit} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.82rem", fontWeight:500, color:"#FEFCF8", background:"#990000", border:"none", borderRadius:"3px", padding:"0.5rem 1rem", cursor:"pointer", letterSpacing:"0.03em", transition:"background 0.15s" }}
+              onMouseEnter={e=>e.currentTarget.style.background="#7A0000"} onMouseLeave={e=>e.currentTarget.style.background="#990000"}>
               + Submit CFP
             </button>
           </div>
@@ -724,7 +724,7 @@ function BrowseView({ categories, onSelect, onSubmit }) {
           : cfps.length===0 ? (
             <div style={{ background:"#FEFCF8", border:"1px solid #E8E2D9", borderRadius:"4px", padding:"3rem", textAlign:"center" }}>
               <p style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.1rem", color:"#7A6F60", marginBottom:"0.5rem" }}>No listings match your filters.</p>
-              <button onClick={()=>{setSearch("");setSlug([]);setType("All");setDeadlineFrom("");setDeadlineTo("");}} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.83rem", color:"#B8935A", background:"none", border:"none", cursor:"pointer" }}>Clear all filters</button>
+              <button onClick={()=>{setSearch("");setSlug([]);setType("All");setDeadlineFrom("");setDeadlineTo("");}} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.83rem", color:"#990000", background:"none", border:"none", cursor:"pointer" }}>Clear all filters</button>
             </div>
           ) : (
             <>
@@ -782,20 +782,20 @@ export default function App() {
     <div style={{ minHeight:"100vh", background:"#F5F1EB" }}>
       <style>{GOOGLE_FONTS + GLOBAL_CSS}</style>
 
-      <header style={{ background:"#1C1810", borderBottom:"3px solid #B8935A", position:"sticky", top:0, zIndex:100 }}>
+      <header style={{ background:"#011F5B", borderBottom:"3px solid #990000", position:"sticky", top:0, zIndex:100 }}>
         <div style={{ maxWidth:"1200px", margin:"0 auto", padding:"0 2rem", display:"flex", alignItems:"center", justifyContent:"space-between", height:"64px" }}>
           <div style={{ display:"flex", alignItems:"baseline", gap:"0.6rem", cursor:"pointer" }} onClick={() => nav("browse")}>
             <span style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.4rem", fontWeight:700, color:"#FEFCF8", letterSpacing:"-0.01em" }}>CFP Commons</span>
-            <span style={{ fontFamily:"'Lora',serif", fontSize:"0.78rem", fontStyle:"italic", color:"#B8935A" }}>Calls for Papers & Announcements</span>
+            <span style={{ fontFamily:"'Lora',serif", fontSize:"0.78rem", fontStyle:"italic", color:"#990000" }}>Calls for Papers & Announcements</span>
           </div>
           <nav style={{ display:"flex", gap:"0.1rem", alignItems:"center" }}>
             {[["Browse","browse"],["Submit CFP","submit"],["Manage","manage"]].map(([label,v]) => (
-              <button key={v} onClick={() => nav(v)} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.83rem", fontWeight:view===v?600:400, color:view===v?"#B8935A":"#C4B9A8", background:"none", border:"none", cursor:"pointer", padding:"0.4rem 0.85rem", borderRadius:"3px", letterSpacing:"0.03em" }}>
+              <button key={v} onClick={() => nav(v)} style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.83rem", fontWeight:view===v?600:400, color:view===v?"#990000":"#C4B9A8", background:"none", border:"none", cursor:"pointer", padding:"0.4rem 0.85rem", borderRadius:"3px", letterSpacing:"0.03em" }}>
                 {label}
               </button>
             ))}
             <a href="/rss/all" target="_blank" style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.75rem", color:"#6B6050", textDecoration:"none", padding:"0.4rem 0.6rem", letterSpacing:"0.05em" }}
-              onMouseEnter={e=>e.currentTarget.style.color="#B8935A"} onMouseLeave={e=>e.currentTarget.style.color="#6B6050"}>RSS</a>
+              onMouseEnter={e=>e.currentTarget.style.color="#990000"} onMouseLeave={e=>e.currentTarget.style.color="#6B6050"}>RSS</a>
           </nav>
         </div>
       </header>
@@ -820,11 +820,11 @@ export default function App() {
       {tokenModal && <TokenModal {...tokenModal} onClose={()=>setModal(null)}/>}
       <Toasts toasts={toasts}/>
 
-      <footer style={{ background:"#1C1810", borderTop:"1px solid #3A3228", marginTop:"4rem", padding:"1.5rem 2rem", textAlign:"center" }}>
+      <footer style={{ background:"#011F5B", borderTop:"1px solid #1F3E72", marginTop:"4rem", padding:"1.5rem 2rem", textAlign:"center" }}>
         <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.78rem", color:"#6B6050" }}>
           CFP Commons · A community resource for humanities scholars ·{" "}
-          <a href="/rss/all" style={{ color:"#B8935A", textDecoration:"none" }}>RSS</a>
-          {" · "}<span style={{ color:"#3A3228" }}>Redesign prototype</span>
+          <a href="/rss/all" style={{ color:"#990000", textDecoration:"none" }}>RSS</a>
+          {" · "}<span style={{ color:"#1F3E72" }}>Redesign prototype</span>
         </p>
       </footer>
     </div>
