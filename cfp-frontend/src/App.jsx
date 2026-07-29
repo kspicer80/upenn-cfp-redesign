@@ -63,14 +63,7 @@ function CardSkeleton() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  NEW — Cold-start loading gate
-//
-//  Render's free instance spins down after 15 minutes of inactivity and
-//  takes 30-60s to wake back up on the next request. Without this, the
-//  first person to click the link after it's been idle would see an
-//  empty shell (0 categories, blank sidebar) for up to a minute, which
-//  reads as "broken," not "loading." This gates the whole app behind a
-//  friendly, honest message until that first request actually resolves.
+//  Cold-start loading gate (Render free-tier wake-up handling)
 // ─────────────────────────────────────────────────────────────────────────────
 
 function ColdStartScreen({ slow }) {
@@ -584,7 +577,7 @@ function ManageView({ prefillId, categories, onBack, toast }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  Browse view
+//  Browse view — NOW with a prominent "All Recent Posts" heading + deadline sort
 // ─────────────────────────────────────────────────────────────────────────────
 
 function BrowseView({ categories, onSelect, onSubmit }) {
@@ -634,6 +627,13 @@ function BrowseView({ categories, onSelect, onSubmit }) {
   const sbCats = categories.slice(0, 22);
   const selStyle = { background:"#1C1810", border:"1px solid #3A3228", borderRadius:"3px", padding:"0.65rem 2rem 0.65rem 0.8rem", fontFamily:"'DM Sans',sans-serif", fontSize:"0.85rem", color:"#C4B9A8", outline:"none", cursor:"pointer", appearance:"none", backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236B6050' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`, backgroundRepeat:"no-repeat", backgroundPosition:"right 0.7rem center" };
 
+  // NEW — dynamic section heading: names the single active category when
+  // there is exactly one, otherwise reads as the real site's "all recent
+  // posts" page — everything, unfiltered, across every category.
+  const headingText = activeSlugs.length === 1
+    ? (categories.find(c => c.slug === activeSlugs[0])?.name || "All Recent Posts")
+    : "All Recent Posts";
+
   return (
     <>
       <div style={{ background:"#241F16", borderBottom:"1px solid #3A3228", padding:"1.6rem 2rem" }}>
@@ -645,10 +645,6 @@ function BrowseView({ categories, onSelect, onSubmit }) {
               onFocus={e=>e.target.style.borderColor="#B8935A"} onBlur={e=>e.target.style.borderColor="#3A3228"}/>
           </div>
           <select style={selStyle} value={type} onChange={e=>setType(e.target.value)}>{["All","Conference","Journal","Announcement"].map(o=><option key={o}>{o}</option>)}</select>
-          <select style={selStyle} value={sort} onChange={e=>setSort(e.target.value)}>
-            <option value="recent">Most Recent</option>
-            <option value="deadline">Soonest Deadline</option>
-          </select>
           <label style={{ display:"flex", alignItems:"center", gap:"0.4rem", fontFamily:"'DM Sans',sans-serif", fontSize:"0.82rem", color:"#9A8F80", cursor:"pointer", userSelect:"none" }}>
             <input type="checkbox" checked={closed} onChange={e=>setClosed(e.target.checked)} style={{ accentColor:"#B8935A" }}/>Include past
           </label>
@@ -659,7 +655,6 @@ function BrowseView({ categories, onSelect, onSubmit }) {
         <aside>
           <div style={{ background:"#FEFCF8", border:"1px solid #E8E2D9", borderRadius:"4px", padding:"1.2rem", position:"sticky", top:"80px" }}>
 
-            {/* Deadline range filter */}
             <div style={{ marginBottom:"1.1rem", paddingBottom:"1.1rem", borderBottom:"1px solid #E8E2D9" }}>
               <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"0.6rem" }}>
                 <span style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.7rem", letterSpacing:"0.08em", textTransform:"uppercase", color:"#9A8F80", fontWeight:500 }}>Deadline Range</span>
@@ -700,6 +695,21 @@ function BrowseView({ categories, onSelect, onSubmit }) {
         </aside>
 
         <div>
+          {/* NEW — page masthead: dynamic heading + prominent sort toggle */}
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-end", flexWrap:"wrap", gap:"1rem", marginBottom:"0.5rem" }}>
+            <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.55rem", fontWeight:700, color:"#1C1810", lineHeight:1.2 }}>
+              {headingText}
+            </h2>
+            <div style={{ display:"flex", background:"#F0EBE3", borderRadius:"20px", padding:"3px", flexShrink:0 }}>
+              {[["recent","Most Recent"],["deadline","Soonest Deadline"]].map(([key,label]) => (
+                <button key={key} onClick={()=>setSort(key)}
+                  style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.78rem", fontWeight:500, letterSpacing:"0.01em", padding:"0.45rem 0.9rem", borderRadius:"17px", border:"none", cursor:"pointer", transition:"all 0.15s", background:sort===key?"#1C1810":"transparent", color:sort===key?"#FEFCF8":"#7A6F60" }}>
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"1.2rem" }}>
             <span style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.82rem", color:"#9A8F80" }}>
               {loading ? "Loading…" : `${meta.total} listing${meta.total!==1?"s":""}${debSearch?` for "${debSearch}"`:""}${activeSlugs.length?` · ${activeSlugs.length} category filter${activeSlugs.length>1?"s":""}`:""}${(deadlineFrom||deadlineTo)?` · deadline ${deadlineFrom||"any"}–${deadlineTo||"any"}`:""}`}
@@ -746,9 +756,6 @@ export default function App() {
   const [tokenModal, setModal] = useState(null);
   const { toasts, toast } = useToasts();
 
-  // NEW — cold-start gate state. catsLoading gates the whole app until the
-  // very first request resolves; slowStart flips on after ~3.5s so a fast
-  // (warm-instance) load never even flashes the "waking up" copy.
   const [catsLoading, setCatsLoading] = useState(true);
   const [slowStart, setSlowStart] = useState(false);
   const [loadError, setLoadError] = useState(false);
@@ -766,9 +773,6 @@ export default function App() {
 
   useEffect(() => { loadCategories(); }, [loadCategories]);
 
-  // Gate the whole app behind the loading/error screens until the backend
-  // has actually responded once. Everything below this point behaves
-  // exactly as it did before.
   if (loadError) return <LoadErrorScreen onRetry={loadCategories} />;
   if (catsLoading) return <ColdStartScreen slow={slowStart} />;
 
