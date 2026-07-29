@@ -71,7 +71,7 @@ function ColdStartScreen({ slow }) {
     <div style={{ minHeight:"100vh", background:"#F5F1EB", display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column", gap:"1.2rem", padding:"2rem", textAlign:"center" }}>
       <style>{GOOGLE_FONTS}</style>
       <div style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.5rem", fontWeight:700, color:"#011F5B" }}>
-        CFP Commons
+        Penn CFP Commons
       </div>
       <div style={{ width:"28px", height:"28px", border:"3px solid #E8E2D9", borderTopColor:"#990000", borderRadius:"50%", animation:"spin 0.8s linear infinite" }} />
       <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.88rem", color:"#7A6F60", maxWidth:"320px", lineHeight:1.6 }}>
@@ -88,7 +88,7 @@ function LoadErrorScreen({ onRetry }) {
     <div style={{ minHeight:"100vh", background:"#F5F1EB", display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column", gap:"1rem", padding:"2rem", textAlign:"center" }}>
       <style>{GOOGLE_FONTS}</style>
       <div style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.3rem", fontWeight:700, color:"#011F5B" }}>
-        CFP Commons
+        Penn CFP Commons
       </div>
       <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.88rem", color:"#9B1C1C", maxWidth:"320px", lineHeight:1.6 }}>
         Couldn't reach the server. It may still be waking up — try again in a moment.
@@ -785,7 +785,7 @@ export default function App() {
       <header style={{ background:"#011F5B", borderBottom:"3px solid #990000", position:"sticky", top:0, zIndex:100 }}>
         <div style={{ maxWidth:"1200px", margin:"0 auto", padding:"0 2rem", display:"flex", alignItems:"center", justifyContent:"space-between", height:"64px" }}>
           <div style={{ display:"flex", alignItems:"baseline", gap:"0.6rem", cursor:"pointer" }} onClick={() => nav("browse")}>
-            <span style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.4rem", fontWeight:700, color:"#FEFCF8", letterSpacing:"-0.01em" }}>CFP Commons</span>
+            <span style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.4rem", fontWeight:700, color:"#FEFCF8", letterSpacing:"-0.01em" }}>Penn CFP Commons</span>
             <span style={{ fontFamily:"'Lora',serif", fontSize:"0.78rem", fontStyle:"italic", color:"#990000" }}>Calls for Papers & Announcements</span>
           </div>
           <nav style={{ display:"flex", gap:"0.1rem", alignItems:"center" }}>
@@ -822,7 +822,7 @@ export default function App() {
 
       <footer style={{ background:"#011F5B", borderTop:"1px solid #1F3E72", marginTop:"4rem", padding:"1.5rem 2rem", textAlign:"center" }}>
         <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"0.78rem", color:"#6B6050" }}>
-          CFP Commons · A community resource for humanities scholars ·{" "}
+          Penn CFP Commons · A community resource for humanities scholars ·{" "}
           <a href="/rss/all" style={{ color:"#990000", textDecoration:"none" }}>RSS</a>
           {" · "}<span style={{ color:"#1F3E72" }}>Redesign prototype</span>
         </p>
